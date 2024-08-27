@@ -1,6 +1,8 @@
 package bdiscord
 
 import (
+	"fmt"
+
 	"github.com/42wim/matterbridge/bridge/config"
 	"github.com/bwmarrin/discordgo"
 	"github.com/davecgh/go-spew/spew"
@@ -149,6 +151,15 @@ func (b *Bdiscord) messageCreate(s *discordgo.Session, m *discordgo.MessageCreat
 	if ok {
 		rmsg.Event = config.EventUserAction
 	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	reply := m.ReferencedMessage
+	if reply != nil {
+		rmsg.Text = fmt.Sprintf("_Replying to @%s_:\n%s\n\n*@%s*:\n%s", reply.Author.Username, reply.Content, m.Author.Username, m.Content)
+	} else {
+		rmsg.Text = fmt.Sprintf("*@%s*:\n%s", m.Author.Username, m.Content)
+	}
+	//////////////////////////////////////////////////////////////////////////////
 
 	// Replace emotes
 	rmsg.Text = replaceEmotes(rmsg.Text)

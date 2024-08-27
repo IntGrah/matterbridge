@@ -395,7 +395,7 @@ func (b *Bwhatsapp) Send(msg config.Message) (string, error) {
 		if b.GetString("editsuffix") != "" {
 			msg.Text += b.GetString("EditSuffix")
 		} else {
-			msg.Text += " (edited)"
+			msg.Text += "\n_(edited)_"
 		}
 	}
 
